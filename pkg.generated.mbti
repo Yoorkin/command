@@ -1,0 +1,32 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "Yoorkin/command"
+
+import {
+  "moonbitlang/core/debug",
+  "moonbitlang/core/json",
+}
+
+// Values
+pub fn register(from_json? : (Json) -> Payload, to_json? : (Payload) -> Json, debug? : (Payload) -> @debug.Repr) -> Handler
+
+pub fn run(Cmd) -> Unit
+
+// Errors
+
+// Types and methods
+type Cmd
+pub impl ToJson for Cmd
+pub impl @debug.Debug for Cmd
+pub impl @json.FromJson for Cmd
+
+type Handler
+pub fn Handler::create(Self, Payload) -> Cmd
+pub fn Handler::on_execute(Self, (Payload) -> Unit) -> Unit
+
+pub(all) extenum Payload {
+}
+
+// Type aliases
+
+// Traits
+
