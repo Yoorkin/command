@@ -7,26 +7,31 @@ import {
 }
 
 // Values
-pub fn register(from_json? : (Json) -> Payload, to_json? : (Payload) -> Json, debug? : (Payload) -> @debug.Repr) -> Handler
+pub fn register(from_json? : (Json) -> Payload raise Unhandled, to_json? : (Payload) -> Json raise Unhandled, debug? : (Payload) -> @debug.Repr raise Unhandled, execute? : (Payload) -> Unit raise Unhandled) -> Token
 
-pub fn run(Cmd) -> Unit
+pub fn run(Cmd) -> Unit raise Unhandled
 
 // Errors
+pub(all) suberror Unhandled
 
 // Types and methods
-type Cmd
+pub struct Cmd {
+  payload : Payload
+  // private fields
+}
 pub impl ToJson for Cmd
 pub impl @debug.Debug for Cmd
 pub impl @json.FromJson for Cmd
 
-type Handler
-pub fn Handler::create(Self, Payload) -> Cmd
-pub fn Handler::on_execute(Self, (Payload) -> Unit) -> Unit
-
 pub(all) extenum Payload {
 }
 
+type Token
+pub fn Token::hook(Self) -> ((Payload) -> Unit raise Unhandled) -> Unit
+pub fn Token::request(Self, Payload) -> Cmd
+
 // Type aliases
+pub type Hook = ((Payload) -> Unit raise Unhandled) -> Unit
 
 // Traits
 

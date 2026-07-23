@@ -9,65 +9,51 @@ pub extenum @command.Payload += {
 }
 
 ///|
-let handler : @command.Handler = @command.register(
-  from_json=fn(json) {
+let token : @command.Token = @command.register(
+  from_json=json => {
     match json {
       { "method": "GET", "url": String(url), .. } => Get(url)
       { "method": "POST", "url": String(url), "body": String(body), .. } =>
         Post(url, body)
-      _ => panic()
+      _ => raise @command.Unhandled
     }
   },
-  to_json=fn(p) {
-    match p {
+  to_json=payload => {
+    match payload {
       Get(url) => { "method": "GET", "url": url }
       Post(url, body) => { "method": "POST", "url": url, "body": body }
-      _ => panic()
+      _ => raise @command.Unhandled
+    }
+  },
+  execute=payload => {
+    match payload {
+      Get(url) => ... // @async.get
+      Post(url, body) => ... // @async.post
+      _ => raise @command.Unhandled
     }
   },
 )
 
 ///|
-#cfg(target="js")
-fn init {
-  handler.on_execute(fn(c) {
-    match c {
-      Get(url) => ... // js fetch
-      Post(url, body) => ... // js fetch
-      _ => panic()
-    }
-  })
+pub let hook : @command.Hook = token.hook()
+
+///|
+pub fn get(url : String) -> @command.Cmd {
+  token.request(Get(url))
 }
 
 ///|
-#cfg(target="native")
-fn init {
-  handler.on_execute(fn(c) {
-    match c {
-      Get(url) => ... // @async.get
-      Post(url, body) => ... // @async.post
-      _ => panic()
-    }
-  })
-}
-
-///|
-pub fn get(url : String) -> Cmd {
-  handler.create(Get(url))
-}
-
-///|
-pub fn post(url : String, body : String) -> Cmd {
-  handler.create(Post(url, body))
+pub fn post(url : String, body : String) -> @command.Cmd {
+  token.request(Post(url, body))
 }
 
 ///|
 test {
-  json_inspect(get("api/v0"), content={
+  json_inspect(get("api/v0"), content = {
     "id": { "gen": 0, "idx": 0 },
     "payload": { "method": "GET", "url": "api/v0" },
   })
-  json_inspect(post("api/v0", "text"), content={
+  json_inspect(post("api/v0", "text"), content = {
     "id": { "gen": 0, "idx": 0 },
     "payload": { "method": "POST", "url": "api/v0", "body": "text" },
   })

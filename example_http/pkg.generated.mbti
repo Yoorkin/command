@@ -1,0 +1,28 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "Yoorkin/command/example_http"
+
+import {
+  "Yoorkin/command",
+}
+
+// Values
+pub fn get(String) -> @command.Cmd
+
+pub fn hook((@command.Payload) -> Unit raise @command.Unhandled) -> Unit
+
+pub fn post(String, String) -> @command.Cmd
+
+// Errors
+
+// Types and methods
+
+// Extensible enum extensions
+pub extenum @command.Payload += {
+  Get(String)
+  Post(String, String)
+}
+
+// Type aliases
+
+// Traits
+
