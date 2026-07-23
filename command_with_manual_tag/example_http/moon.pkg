@@ -1,0 +1,4 @@
+import {
+  "Yoorkin/command/command_with_manual_tag" @command,
+  "moonbitlang/core/json",
+}

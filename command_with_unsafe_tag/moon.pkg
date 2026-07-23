@@ -1,4 +1,4 @@
 import {
-  "Yoorkin/command",
+  "Yoorkin/slotmap",
   "moonbitlang/core/json",
 }

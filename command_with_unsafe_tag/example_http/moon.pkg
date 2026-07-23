@@ -1,0 +1,4 @@
+import {
+  "Yoorkin/command/command_with_unsafe_tag" @command,
+  "moonbitlang/core/json",
+}
