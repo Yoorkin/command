@@ -1,23 +1,23 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "Yoorkin/command/example_http"
+package "Yoorkin/command/command_with_unsafe_tag/example_http"
 
 import {
-  "Yoorkin/command",
+  "Yoorkin/command/command_with_unsafe_tag",
 }
 
 // Values
-pub fn get(String) -> @command.Cmd
+pub fn get(String) -> @command_with_unsafe_tag.Cmd
 
-pub fn hook((@command.Payload) -> Unit raise @command.Unhandled) -> Unit
+pub let handler : @command_with_unsafe_tag.Handler
 
-pub fn post(String, String) -> @command.Cmd
+pub fn post(String, String) -> @command_with_unsafe_tag.Cmd
 
 // Errors
 
 // Types and methods
 
 // Extensible enum extensions
-pub extenum @command.Payload += {
+pub extenum @command_with_unsafe_tag.Cmd += {
   Get(String)
   Post(String, String)
 }

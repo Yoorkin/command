@@ -1,0 +1,33 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "Yoorkin/command/command_with_unsafe_tag"
+
+import {
+  "moonbitlang/core/debug",
+  "moonbitlang/core/json",
+}
+
+// Values
+pub fn register(Array[Cmd]) -> Handler?
+
+pub fn run(Cmd) -> Unit raise Unhandled
+
+// Errors
+pub(all) suberror Unhandled
+
+// Types and methods
+pub(all) extenum Cmd {
+}
+pub impl ToJson for Cmd
+pub impl @debug.Debug for Cmd
+pub impl @json.FromJson for Cmd
+
+type Handler
+pub fn Handler::debug(Self, (Cmd) -> @debug.Repr raise Unhandled) -> Unit
+pub fn Handler::execute(Self, (Cmd) -> Unit raise Unhandled) -> Unit
+pub fn Handler::from_json(Self, (Json) -> Cmd raise Unhandled) -> Unit
+pub fn Handler::to_json(Self, (Cmd) -> Json raise Unhandled) -> Unit
+
+// Type aliases
+
+// Traits
+

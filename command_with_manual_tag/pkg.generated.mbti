@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "Yoorkin/command"
+package "Yoorkin/command/command_with_manual_tag"
 
 import {
   "moonbitlang/core/debug",
@@ -7,7 +7,7 @@ import {
 }
 
 // Values
-pub fn register(from_json? : (Json) -> Payload raise Unhandled, to_json? : (Payload) -> Json raise Unhandled, debug? : (Payload) -> @debug.Repr raise Unhandled, execute? : (Payload) -> Unit raise Unhandled) -> Token
+pub fn register() -> Handler
 
 pub fn run(Cmd) -> Unit raise Unhandled
 
@@ -23,15 +23,17 @@ pub impl ToJson for Cmd
 pub impl @debug.Debug for Cmd
 pub impl @json.FromJson for Cmd
 
+type Handler
+pub fn Handler::debug(Self, (Payload) -> @debug.Repr raise Unhandled) -> Unit
+pub fn Handler::execute(Self, (Payload) -> Unit raise Unhandled) -> Unit
+pub fn Handler::from_json(Self, (Json) -> Payload raise Unhandled) -> Unit
+pub fn Handler::request(Self, Payload) -> Cmd
+pub fn Handler::to_json(Self, (Payload) -> Json raise Unhandled) -> Unit
+
 pub(all) extenum Payload {
 }
 
-type Token
-pub fn Token::hook(Self) -> ((Payload) -> Unit raise Unhandled) -> Unit
-pub fn Token::request(Self, Payload) -> Cmd
-
 // Type aliases
-pub type Hook = ((Payload) -> Unit raise Unhandled) -> Unit
 
 // Traits
 

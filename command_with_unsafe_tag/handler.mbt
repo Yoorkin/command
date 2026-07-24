@@ -33,20 +33,21 @@ let default_handler : Handler = {
 }
 
 ///|
-pub fn Handler::Handler(cases : Array[Cmd]) -> Handler {
+pub fn register(cases : Array[Cmd]) -> Handler? {
   guard !(cases is [])
   let tags = cases.map(unsafe_obj_block_tag)..sort()
   global_handlers.resize(tags.last().unwrap() + 1, default_handler)
-  let handler = Handler::{
-    execute: fallback,
-    from_json: fallback,
-    to_json: fallback,
-    debug: fallback,
+  // copy the handler
+  let handler = { ..default_handler }
+  for tag in tags {
+    if !physical_equal(global_handlers[tag], default_handler) {
+      return None
+    }
   }
   for tag in tags {
     global_handlers[tag] = handler
   }
-  handler
+  Some(handler)
 }
 
 ///|

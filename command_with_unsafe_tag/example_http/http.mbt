@@ -3,16 +3,16 @@
 // Run `moon test` to execute and `moon test --update` to refresh snapshots.
 
 ///|
-pub(all) extenum @command.Cmd += {
+pub extenum @command.Cmd += {
   Get(String)
   Post(String, String)
 }
 
 ///|
-pub let handler : @command.Handler = Handler([
+pub let handler : @command.Handler = @command.register([
   Get(Default::default()),
   Post(Default::default(), Default::default()),
-])
+]).unwrap()
 
 ///|
 fn init {
